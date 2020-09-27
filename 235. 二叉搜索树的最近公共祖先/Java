@@ -38,3 +38,31 @@ class Solution {
         return path;
     }
 }
+
+
+/****************************************/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        TreeNode anc = root;
+        while (true) {
+            if (p.val < anc.val && q.val < anc.val) {
+                anc = anc.left;
+            } else if (p.val > anc.val && q.val > anc.val) {
+                anc = anc.right;
+            } else {
+                break;
+            }
+        }
+        return anc;
+    }
+}
