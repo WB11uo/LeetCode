@@ -1,18 +1,16 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        anc = root
-        while True:
-            if p.val < anc.val and q.val < anc.val:
-                anc = anc.left
-            elif p.val > anc.val and q.val > anc.val:
-                anc = anc.right
-            else:
-                break
-        return anc
+class Solution {
+    public boolean isPalindrome(int x) {
+        //边界
+        if (x < 0) return false;
+        int div = 1;
+        while (x / div >= 10) div *= 10;
+        while (x > 1) {
+            int left = x / div;
+            int right = x % 10;
+            if (left != right) return false;
+            x = (x % div) / 10;
+            div /= 100;
+        }
+        return true;
+    }
+}
