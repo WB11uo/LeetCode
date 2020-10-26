@@ -1,0 +1,47 @@
+class Solution {
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+        int n = nums.length;
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) {
+            int s = 0;
+            for (int j = 0; j < n; j++) {
+                if (nums[i] > nums[j])
+                    s++;
+            }
+            ans[i] = s;
+        }
+        return ans;
+    }
+}
+
+////////////////////////////////////////////////////////////
+class Solution {
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int[] sorted = Arrays.stream(nums).sorted().toArray();
+        for (int i = 0; i < sorted.length; i++) {
+            if (i == 0 || sorted[i] > sorted[i - 1]) {
+                map.put(sorted[i], i);
+            }
+        }
+        return Arrays.stream(nums).map(num -> map.get(num)).toArray();
+    }
+}
+///////////////////////////////////////////////////////////
+class Solution {
+    public int[] smallerNumbersThanCurrent(int[] nums) {
+        int[] arr = new int[101];		
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            arr[nums[i]]++;
+        }
+        for (int i = 1; i <= 100; i++) {
+            arr[i] += arr[i - 1];
+        }
+        int[] ret = new int[n];
+        for (int i = 0; i < n; i++) {
+            ret[i] = nums[i] == 0 ? 0 : arr[nums[i] - 1];
+        }
+        return ret;
+    }
+}
