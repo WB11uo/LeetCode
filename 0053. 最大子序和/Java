@@ -13,3 +13,52 @@ class Solution {
 		return ans;
     }
 }
+///////////////////////////////////////////////////
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int pre = 0, ans = nums[0];
+		for (int num : nums) {
+			pre = Math.max(num + pre, num);
+			ans = Math.max(pre, ans);
+		}
+		return ans;
+    }
+}
+////////////////////////////////////////////////////
+class Solution {
+	public class Status {
+		public int lSum, rSum, mSum, iSum;
+		public Status(int lSum, int rSum, int mSum, int iSum) {
+			this.lSum = lSum;
+			this.rSum = rSum;
+			this.mSum = mSum;
+			this.iSum = iSum;
+		}
+	}
+	// lSum 表示 [l, r]内以 l 为左端点的最大子段和
+	// rSum 表示 [l, r]内以 r 为右端点的最大子段和
+	// mSum 表示 [l, r]内的最大子段和
+	// iSum 表示 [l, r]的区间和
+
+    public int maxSubArray(int[] nums) {
+		return getInfo(nums, 0, nums.length - 1).mSum;
+    }
+	
+	public Status getInfo(int[] a, int l, int r) {
+		if (l == r) {
+			return new Status(a[l], a[r], a[l], a[r]);
+		}
+		int m = (l + r) >> 1;
+		Status lSta = getInfo(a, l, m);
+		Status rSta = getInfo(a, m + 1, r);
+		return pushUp(lSta, rSta);
+	}
+	
+	public Status pushUp(Status lSta, Status rSta) {
+		int iSum = lSta.iSum + rSta.iSum;
+		int lSum = Math.max (lSta.lSum, lSta.iSum + rSta.lSum);
+		int rSum = Math.max (rSta.rSum, rSta.iSum + lSta.rSum);
+		int mSum = Math.max (Math.max(lSta.mSum, rSta.mSum), lSta.rSum + rSta.lSum);
+		return new Status(lSum, rSum, mSum, iSum);
+	}
+}
