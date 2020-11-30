@@ -1,0 +1,125 @@
+class Solution {
+    public int majorityElement(int[] nums) {
+        int len = nums.length/2;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            if (map.containsKey(num))
+                map.put(num, map.get(num)+1);
+            else {
+                map.put(num,1);
+            }
+        }
+        for (int num : map.keySet()) {
+            if (map.get(num) > len) 
+                return num;
+        }
+        return -1;
+    }
+}
+///////////////////////////////////////////
+class Solution {
+	private Map<Integer, Integer> countNums(int[] nums) {
+		Map<Integer, Integer> counts = new HashMap<Integer, Integer>();
+        for (int num : nums) {
+            if (!counts.containsKey(num)) {
+                counts.put(num, 1);
+            } else {
+                counts.put(num, counts.get(num) + 1);
+            }
+        }
+        return counts;
+	}
+    public int majorityElement(int[] nums) {
+		Map<Integer, Integer> counts = countNums(nums);
+		Map.Entry<Integer, Integer> temp = null;
+		for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
+			if (temp == null || entry.getValue() > temp.getValue()) {
+				temp = entry;
+			}
+		}
+		return temp.getKey();
+    }
+}
+//////////////////////////////////////////////////
+class Solution {
+    public int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        return nums[nums.length / 2];
+    }
+}
+///////////////////////////////////////////////////////////////
+class Solution {
+	private int randRange(Random rand, int min, int max) {
+		return rand.nextInt(max - min) + min;
+		//Random.nextInt()随机产生一个数,如果有参数就是在0到参数之间产生.
+	}
+	
+	private int countOccurences(int[] nums, int num) {
+		int count = 0;
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] == num) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
+    public int majorityElement(int[] nums) {
+		Random rand = new Random();
+		int limit = nums.length/2;
+		while(true) {
+			int temp = nums[randRange(rand, 0, nums.length)];
+			if (countOccurences(nums, temp) > limit) {
+				return temp;
+			}
+		}
+    }
+}
+//////////////////////////////////////////////////////////
+class Solution {
+	private int countInRange(int[] nums, int num, int lo, int hi) {
+		int count = 0;
+		for (int i = lo; i <= hi; i++) {
+			if (nums[i] == num){
+				count++;
+			}
+		}
+		return count;
+	}
+	private int majorityElementRec(int[] nums, int lo, int hi) {
+		if (lo == hi) {
+			return nums[lo];
+		}
+		
+		int mid = (hi - lo) / 2 + lo;
+		int left = majorityElementRec(nums, lo, mid);
+		int right = majorityElementRec(nums, mid + 1, hi);
+		
+		if (left == right) {
+			return left;
+		}
+		
+		int leftCount = countInRange(nums, left, lo, mid);
+		int rightCount = countInRange(nums, right, mid + 1, hi);
+		
+		return leftCount > rightCount ? left : right;
+	}
+    public int majorityElement(int[] nums) {
+		return majorityElementRec(nums, 0, nums.length - 1);
+    }
+}
+////////////////////////////////////////////////////
+class Solution {
+    public int majorityElement(int[] nums) {
+		int count = 0;
+		Integer temp = null;
+		
+		for (int num : nums) {
+			if (count == 0) {
+				temp = num;
+			}
+			count += (temp == num) ? 1 : -1;
+		}
+		return temp;
+    }
+}
