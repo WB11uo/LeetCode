@@ -1,0 +1,28 @@
+class Solution {
+    public boolean isPossible(int[] nums) {
+		Map<Integer, PriorityQueue<Integer>> map = new HashMap<Integer, PriorityQueue<Integer>>();
+		for (int num : nums) {
+			if (!map.containsKey(num)) {
+				map.put(num, new PriorityQueue<Integer>());
+			}
+			if (map.containsKey(num - 1)) {
+				int prevLength = map.get(num - 1).poll();
+				if (map.get(num - 1).isEmpty()) {
+					map.remove(num - 1);
+				}
+				map.get(num).offer(prevLength + 1);
+			} else {
+				map.get(num).offer(1);
+			}
+		}
+		Set<Map.Entry<Integer, PriorityQueue<Integer>>> entrySet = map.entrySet();
+		for (Map.Entry<Integer, PriorityQueue<Integer>> entry : entrySet) {
+			PriorityQueue<Integer> queue = entry.getValue();
+			if (queue.peek() < 3) {
+				return false;
+			}
+		}
+		return true;
+	}
+}
+/////////////////////////////////////////////////////////
