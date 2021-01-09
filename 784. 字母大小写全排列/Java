@@ -1,0 +1,26 @@
+class Solution {
+    public List<String> letterCasePermutation(String S) {
+		int len = S.length();
+		List<String> ans = new ArrayList<>();
+		
+		dfs(S.toCharArray(), 0, ans);
+		
+		return ans;
+    }
+	
+	public void dfs (char[] S, int i, List<String> ans) {
+		int len = S.length;
+		for (; i < len; i++) {
+			if (S[i] >= 'a' && S[i] <= 'z') {
+				S[i] = (char)(S[i] - 'a' + 'A');
+				dfs(S, i + 1, ans);
+				S[i] = (char)(S[i] - 'A' + 'a');
+			} else if (S[i] >= 'A' && S[i] <= 'Z') {
+				S[i] = (char)(S[i] - 'A' + 'a');
+				dfs(S, i + 1, ans);
+				S[i] = (char)(S[i] - 'a' + 'A');
+			}
+		}
+		ans.add(new String(S));
+	}
+}
