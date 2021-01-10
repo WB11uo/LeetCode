@@ -1,0 +1,77 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+		return helper(root, null, null);
+    }
+	
+	public boolean helper(TreeNode node, Integer lower, Integer upper) {
+		if (node == null) {
+			return true;
+		}
+		
+		int val = node.val;
+		if (lower != null && val <= lower) {
+			return false;
+		}
+		if (upper != null && val >= upper) {
+			return false;
+		}
+		if (!(helper(node.left, lower, val))) {
+			return false;
+		}
+		if (!(helper(node.right, val, upper))) {
+			return false;
+		}
+		return true;
+	}
+}
+//////////////////////////////////////////////////
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+		Deque<TreeNode> stack = new LinkedList<>();
+		double inorder = -Double.MAX_VALUE;
+		
+		while (!stack.isEmpty() || root != null) {
+			while (root != null) {
+				stack.push(root);
+				root = root.left;
+			}
+			root = stack.pop();
+			if (root.val <= inorder) {
+				return false;
+			}
+			inorder = root.val;
+			root = root.right;
+		}
+		return true;
+    }
+}
