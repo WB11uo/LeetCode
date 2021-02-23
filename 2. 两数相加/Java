@@ -35,3 +35,19 @@ class Solution {
         return pre.next;
     }
 }
+/////////////////////////////////////////
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+		int len = nums.length;
+		Map<Integer, Integer> hashmap = new HashMap<>(len - 1);
+		hashmap.put(nums[0], 0);
+		for (int i = 1; i < len; i++) {
+			int another = target - nums[i];
+			if (hashmap.containsKey(another)) {
+				return new int[]{i, hashmap.get(another)};
+			}
+			hashmap.put(nums[i], i);
+		}
+		return new int[]{0};
+    }
+}
