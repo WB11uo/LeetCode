@@ -35,8 +35,8 @@ class Solution {
 					int j = queue.poll();
 					visited[j] = true;
 					for (int k = 0; k < p; k++) {
-						if (isConnected[i][k] == 1 && !visited[k]) {
-							queue.add(k);
+						if (isConnected[j][k] == 1 && !visited[k]) {
+							queue.offer(k);
 						}
 					}
 				}
