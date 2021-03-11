@@ -1,0 +1,48 @@
+class Solution {
+    public int findCircleNum(int[][] isConnected) {
+		int p = isConnected.length;
+		boolean[] visited = new boolean[p];
+		int circles = 0;
+		for (int i = 0; i < p; i++) {
+			if (!visited[i]) {
+				dfs(isConnected, visited, i, p);
+				circles++;
+			}
+		}
+		return circles;
+	}
+	
+	public void dfs (int[][] isConnected, boolean[] visited, int i, int p) {
+		for (int j = 0; j < p; j++) {
+			if (isConnected[i][j] == 1 && !visited[j]) {
+				visited[j] = true;
+				dfs(isConnected, visited, j, p);
+			}
+		}
+	}
+}
+///////////////////////////////////////////////////////
+class Solution {
+    public int findCircleNum(int[][] isConnected) {
+		int p = isConnected.length;
+		boolean[] visited = new boolean[p];
+		int circles = 0;
+		Queue<Integer> queue = new LinkedList<Integer>();
+		for (int i = 0; i < p; i++) {
+			if (!visited[i]) {
+				queue.offer(i);
+				while (!queue.isEmpty()) {
+					int j = queue.poll();
+					visited[j] = true;
+					for (int k = 0; k < p; k++) {
+						if (isConnected[i][k] == 1 && !visited[k]) {
+							queue.add(k);
+						}
+					}
+				}
+				circles++;
+			}
+		}
+		return circles;
+	}
+}
