@@ -9,3 +9,18 @@ class Solution {
 		return cur;
     }
 }
+////////////////////////////////////////
+class Solution {
+    public int rob(int[] nums) {
+		int dpi_2 = 0;
+		int dpi_1 = 0;
+		int len = nums.length;
+		
+		for (int i = 0; i < len; i++) {
+			int dp_i = Math.max(dpi_2 + nums[i], dpi_1);
+			dpi_2 = dpi_1;
+			dpi_1 = dp_i;
+		}
+		return dpi_1;
+    }
+}
