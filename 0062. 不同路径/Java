@@ -44,3 +44,15 @@ class Solution {
         return cur[n - 1];
     }
 }
+//////////////////////////////////////
+class Solution {
+    public int uniquePaths(int m, int n) {
+		int S = m + n - 2;
+		int D = m - 1;
+		long ans = 1;
+		for (int i = 0; i < n; i++) {
+			ans = ans *(S -D + i) / i;
+		}
+		return (int)ans;
+    }
+}
