@@ -19,3 +19,21 @@ public int minSteps(int n) {
     }
     return dp[n];
 }
+//////////////////////////////////////////////
+class Solution {
+    public int minSteps(int n) {
+		int[] dp = new int[n + 1];
+		//dp状态: 第i个A最少操作次数
+		for (int i = 1; i <= n; i++) {
+			//寻找最大因子
+			for (int k = i / 2; k > 0; k--) {
+				if (i % k == 0) {
+					dp[i] = dp[k] + 1 + (i - k) / k;
+					//状态转移方程: dp[i] = 数字i的最大因子次数 加 复制一次 加 Paste次数
+					break;
+				}
+			}
+		}
+		return dp[n];
+	}
+}
