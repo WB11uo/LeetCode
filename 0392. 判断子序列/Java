@@ -1,0 +1,14 @@
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+		int index = -1;
+		for (char c : s.toCharArray()) {
+			index = t.indexOf(c, index + 1);
+			// 2、int indexOf(String str, int startIndex)：
+			// 从指定的索引处开始，返回第一次出现的指定子字符串在此字符串中的索引。
+			if (index == -1) {
+				return false;
+			}
+		}
+		return true;
+    }
+}
