@@ -41,3 +41,24 @@ class Solution {
         }
     }
 }
+/////////////////////////////////////////////////////////////
+class Solution {
+    public void sortColors(int[] nums) {
+		int zeros = -1, one = 0, two = nums.length;
+		while (one < two) {
+			if (nums[one] == 0) {
+				swap(nums, ++zeros, one++);
+			} else if (nums[one] == 2) {
+				swap(nums, --two, one);
+			} else {
+				++one;
+			}
+		}
+    }
+	
+	private void swap(int[] nums, int i, int j) {
+		int t = nums[i];
+		nums[i] = nums[j];
+		nums[j] = t;
+	}
+}
