@@ -37,3 +37,37 @@ class Solution {
 		}
 	}
 }
+////////////////////////////////////
+class Solution {
+    List<List<Integer>> ans = new ArrayList<>();
+
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        List<Integer> list = new ArrayList<>();
+        Arrays.sort(nums);
+        boolean[] hasVisited = new boolean[nums.length];
+        backtracking(nums, list, hasVisited);
+        return ans;
+    }
+
+    private void backtracking(int[] nums, List<Integer> list, boolean[] hasVisited) {
+        if(list.size() == nums.length) {
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = 0; i < hasVisited.length; i++) {
+            if (i != 0 && nums[i] == nums[i - 1] && !hasVisited[i - 1]) {
+                continue;
+            }
+            // 保证相同的数字都相邻，然后每次填入的数一定是这个数所在重复数集合中「从左往右第一个未被填过的数字
+            // 这个判断条件保证了对于重复数的集合，一定是从左往右逐个填入的
+            if (hasVisited[i]) {
+                continue;
+            }
+            hasVisited[i] = true;
+            list.add(nums[i]);
+            backtracking(nums, list, hasVisited);
+            list.remove(list.size() - 1);
+            hasVisited[i] = false;
+        }
+    }
+}
