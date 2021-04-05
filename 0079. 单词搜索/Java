@@ -56,3 +56,52 @@ class Solution {
 		return x >= 0 && x < m && y >= 0 && y < n;
 	}
 }
+///////////////////////////////////////////////////
+class Solution {
+    private final static int[][] direction = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    private int m;
+    private int n;
+
+    public boolean exist(char[][] board, String word) {
+        if (word == null || word.length() == 0) {
+            return true;
+        }
+        if (board == null || board.length == 0 || board[0].length == 0) {
+            return false;
+        }
+
+        m = board.length;
+        n = board[0].length;
+        boolean[][] hasVisited = new boolean[m][n];
+		
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				if (backtracing(0, i, j, hasVisited, board, word)) {
+					return true;
+				}
+			}
+		}
+		
+        return false;
+    }
+
+    private boolean backtracing (int curLen, int i, int j, boolean[][] hasVisited, char[][] board, String word) {
+        if (curLen == word.length()) {
+            return true;
+        }
+		if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != word.charAt(curLen) || hasVisited[i][j]) {
+			return false;
+		}
+		
+		hasVisited[i][j] = true;
+		
+		for (int[] d : direction) {
+			if (backtracing(curLen + 1, i + d[0], j + d[1], hasVisited, board, word)) {
+				return true;
+			}
+		}
+		
+		hasVisited[i][j] = false;
+		return false;
+    }
+}
