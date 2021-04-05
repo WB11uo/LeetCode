@@ -74,3 +74,26 @@ class Solution {
 		path.removeLast();
 	}
 }
+//////////////////////////////////////////////////////////
+class Solution {
+    List<List<Integer>> ans = new ArrayList<>();
+
+    public List<List<Integer>> combine(int n, int k) {
+        List<Integer> list = new ArrayList<>();
+        backtracking(n, k, list, 1);
+        return ans;
+    }
+
+    private void backtracking(int n, int k, List<Integer> list, int start) {
+        if (0 == k) {
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+
+        for (int i = start; i <= n - k + 1; i++) {
+            list.add(i);
+            backtracking(n, k - 1, list, i + 1);
+            list.remove(list.size() - 1);
+        }
+    }
+}
