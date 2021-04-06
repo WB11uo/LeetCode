@@ -1,0 +1,41 @@
+class Solution {
+    List<List<String>> ans = new ArrayList<>();
+
+    public List<List<String>> partition(String s) {
+        List<String> list = new ArrayList<>();
+        backtracking(s, list, 0);
+        return ans;
+    }
+
+    private void backtracking(String s, List<String> list, int start) {
+        if (start == s.length()) {
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+
+        for (int i = start; i < s.length(); i++) {
+            if (isP(s, start, i)) {
+                list.add(s.substring(start, i + 1));
+                backtracking(s, list, i + 1);
+                list.remove(list.size() - 1);
+            }
+
+            // for (int j = i; j < s.length(); j++) {
+            //     if (isP(s, i, j)) {
+            //         list.add(s.substring(i, j + 1));
+            //         backtracking(s, list, j + 1);
+            //         list.remove(list.size() - 1);
+            //     }
+            // }
+        }
+    }
+
+    private boolean isP(String s, int i, int j) {
+        for (; i <= j; i++, j--) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
