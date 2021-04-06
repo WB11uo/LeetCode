@@ -31,3 +31,34 @@ class Solution {
 		}
 	}
 }
+//////////////////////////////////////////////////////////
+class Solution {
+    List<List<Integer>> ans = new ArrayList<>();
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        boolean[] hasVisited = new boolean[candidates.length];
+        Arrays.sort(candidates);
+        List<Integer> list = new ArrayList<>();
+        backtracking(candidates, target, hasVisited, 0, list);
+        return ans;
+    }
+
+    private void backtracking(int[] candidates, int target, boolean[] hasVisited, int start, List<Integer> list) {
+        if (target == 0) {
+            ans.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i = start; i < candidates.length; i++) {
+            if (i != 0 && candidates[i] == candidates[i - 1] && !hasVisited[i - 1]) {
+                continue;
+            }
+            if (candidates[i] <= target) {
+                hasVisited[i] = true;
+                list.add(candidates[i]);
+                backtracking(candidates, target - candidates[i], hasVisited, i + 1, list);
+                list.remove(list.size() - 1);
+                hasVisited[i] = false;
+            }
+        }
+    }
+}
