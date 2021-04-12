@@ -39,3 +39,75 @@ class Solution {
 		return p;
     }
 }
+//////////////////////////////////
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode newHead = new ListNode();
+        ListNode curHead = head;
+        while(curHead != null) {
+            ListNode temp = curHead;
+            curHead = curHead.next;
+            temp.next = newHead.next;
+            newHead.next = temp;
+        }
+        return newHead.next;
+    }
+}
+/////////////////////////////////////////////
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode l1 = head;
+        ListNode l2 = head.next;
+        ListNode newHead = reverseList(l2);
+        l2.next = l1;
+        l1.next = null;
+        return newHead;
+    }
+}
+/////////////////////////////////////////////
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode newHead = new ListNode(-1);
+        ListNode curHead = head;
+        while(curHead != null) {
+            ListNode temp = curHead;
+            curHead = curHead.next;
+            temp.next = newHead.next;
+            newHead.next = temp;
+        }
+        return newHead.next;
+    }
+}
