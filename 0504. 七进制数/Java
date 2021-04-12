@@ -1,0 +1,20 @@
+class Solution {
+    public String convertToBase7(int num) {
+		int flg = 1;
+		if (num < 0) {
+			flg = -1;
+			num = -num;
+		}
+		if (num == 0) {
+			return "0";
+		}
+		StringBuilder str = new StringBuilder();
+		
+		while (num > 0) {
+			str.append(num % 7);
+			num = num / 7;
+		}
+		String ans = str.reverse().toString();
+		return flg == -1 ? "-" + ans : ans;
+    }
+}
