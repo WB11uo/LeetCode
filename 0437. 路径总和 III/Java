@@ -1,0 +1,79 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int pathSum(TreeNode root, int targetSum) {
+        // 
+        Map<Integer, Integer> prefixSumCount = new HashMap<>();
+        //
+        prefixSumCount.put(0, 1);
+        return recursionPathSum(root, prefixSumCount, targetSum, 0);
+    }
+
+    private int recursionPathSum(TreeNode node, Map<Integer, Integer> prefixSumCount, int targetSum, int currSum) {
+        if (node == null) {
+            return 0;
+        }
+        int res = 0;
+        currSum += node.val;
+
+        res += prefixSumCount.getOrDefault(currSum - targetSum, 0);
+
+        prefixSumCount.put(currSum, prefixSumCount.getOrDefault(currSum, 0) + 1);
+
+        res += recursionPathSum(node.left, prefixSumCount, targetSum, currSum);
+        res += recursionPathSum(node.right, prefixSumCount, targetSum, currSum);
+
+        prefixSumCount.put(currSum, prefixSumCount.get(currSum) - 1);
+        return res;
+    }
+}
+/////////////////////////////////////////////////
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int pathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        int ret = pathSumStartWithRoot(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
+        return ret;
+    }
+
+    private int pathSumStartWithRoot(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        int ret = 0;
+        if (root.val == sum) {
+            ret++;
+        }
+        ret += pathSumStartWithRoot(root.left, sum - root.val) + pathSumStartWithRoot(root.right, sum - root.val);
+        return ret;
+    }
+}
