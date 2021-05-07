@@ -1,0 +1,68 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> ret = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while(!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            if (node == null) {
+                continue;
+            }
+            ret.add(node.val);
+            stack.push(node.left);
+            stack.push(node.right);
+        }
+        Collections.reverse(ret);
+        return ret;
+    }
+}
+///////////////////////////////
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
+        Set<TreeNode> seen = new HashSet<>();
+        while(root != null || !s.isEmpty()) {
+            if (root == null && seen.contains(s.peek())) {
+                ans.add(s.pop().val);
+            } else if (root == null) {
+                seen.add(s.peek());
+                root = s.peek().right;
+            } else {
+                s.push(root);
+                root = root.left;
+            }
+        }
+        return ans;
+    }
+}
