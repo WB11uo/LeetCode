@@ -1,0 +1,16 @@
+class Solution {
+    public int longestPalindrome(String s) {
+        int[] cnts = new int[256];
+        for (char c : s.toCharArray()) {
+            cnts[c]++;
+        }
+        int p = 0;
+        for (int cnt : cnts) {
+            p += cnt / 2 * 2;
+        }
+        if (p < s.length()) {
+            p++;
+        }
+        return p;
+    }
+}
