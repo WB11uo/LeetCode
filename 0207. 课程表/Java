@@ -1,0 +1,104 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int[] indegrees = new int[numCourses];
+        List<List<Integer>> adj = new ArrayList<>();
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++) {
+            adj.add(new ArrayList<>());
+        }
+        for (int[] cp : prerequisites) {
+            indegrees[cp[0]]++;
+            adj.get(cp[1]).add(cp[0]);
+        }
+        for (int i = 0; i < numCourses; i++) {
+            if (indegrees[i] == 0) {
+                queue.add(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int pre = queue.poll();
+            numCourses--;
+            for (int cur : adj.get(pre)) {
+                if (--indegrees[cur] == 0) {
+                    queue.add(cur);
+                }
+            }
+        }
+        return numCourses == 0;
+    }
+}
+/////////////////////////////////
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            adj.add(new ArrayList<>());
+        }
+        int[] flags = new int[numCourses];
+        for (int[] cp : prerequisites) {
+            adj.get(cp[1]).add(cp[0]);
+        }
+        for (int i = 0; i < numCourses; i++) {
+            if (!dfs(adj, flags, i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean dfs (List<List<Integer>> adj, int[] flags, int i ){
+        if (flags[i] == 1) {
+            return false;
+        }
+        if (flags[i] == -1) {
+            return true;
+        }
+        flags[i] = 1;
+        for (int j :adj.get(i)) {
+            if (!dfs(adj, flags, j)) {
+                return false;
+            }
+        }
+        flags[i] = -1;
+        return true;
+    }
+}
+////////////////////////////////////////////
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        //list<Integer>[] graphic = new List[numCourses];
+        List<List<Integer>> graphic = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            graphic.add(new ArrayList<>());
+        }
+        for (int[] pre : prerequisites) {
+            graphic.get(pre[0]).add(pre[1]);
+        }
+        boolean[] globalMarked = new boolean[numCourses];
+        boolean[] localMarked = new boolean[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            if (hasCycle(globalMarked, localMarked, graphic, i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean hasCycle(boolean[] globalMarked, boolean[] localMarked, List<List<Integer>> graphic, int curNode) {
+        if (localMarked[curNode]) {
+            return true;
+        }
+        if (globalMarked[curNode]) {
+            return false;
+        }
+        globalMarked[curNode] = true;
+        localMarked[curNode] = true;
+        for (int nextNode : graphic.get(curNode)) {
+            if (hasCycle(globalMarked, localMarked, graphic, nextNode)) {
+                return true;
+            }
+        }
+        localMarked[curNode] = false;
+        return false;
+    }
+}
